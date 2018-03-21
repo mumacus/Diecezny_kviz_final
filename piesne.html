@@ -67,6 +67,7 @@
                 M - zobraz menu
                 <br> T - zobraz tabulku
                 <br> 'medzera' - spusti (zastav) skladbu
+                <br> R - na začiatok skladby
                 <br> 'enter' - správna odpoveď
                 <br>
                 <br> po počkaní s myšou tesne pod tlačidlom play sa zobrazí ovládanie prehrávania
@@ -89,123 +90,13 @@
             <p id="otaznik"></p>
             <button id="playBtn"></button>
             <audio controls>
-                <source src="data/audio/tracks/a1.mp3" type="audio/mpeg">
+                <source src="data/audio/piesne/a1.mp3" type="audio/mpeg">
             </audio>
         </div>
     </div>
     <!-- koniec obsahu -->
-    <script>
-        $(function () {
-
-            //zmena videa
-            $('#playBtn').click(hrajAudio);
-            $('#sourceList button').click(zmenAudio);
-            function hrajAudio() {
-                if ($('#audioWrapper audio')[0].paused) {
-                    $('#audioWrapper audio')[0].play();
-                } else {
-                    $('#audioWrapper audio')[0].pause();
-                }
-            }
-            function zmenAudio() {
-                $('#audioWrapper audio')[0].pause();
-                $('#audioWrapper audio')[0].currentTime = 0;
-                var cesta = 'data/audio/tracks/' + $(this).attr('id') + '.mp3';
-                $('#audioWrapper audio source').attr({ src: cesta });
-                $('#audioWrapper audio')[0].load();
-                zmenObrazok(true);
-            }
-            function zmenObrazok(origosh) {
-                $('#audioWrapper audio')[0].pause();
-                if (origosh !== true) {
-                    var vyhra = new Audio('data/audio/misc/koniec.mp3');
-                    vyhra.play();
-                }
-                $('#otaznik').fadeOut(200, function () {
-                    var cesta = $('#audioWrapper audio source').attr('src');
-                    var index = cesta.charAt(cesta.length - 5);
-                    if (origosh === true) cesta = "url('data/images/otaznik.png')";
-                    else cesta = "url('data/images/tracks/a" + index + ".jpg')";
-                    $(this).css('background-image', cesta);
-                    $(this).fadeIn(200);
-                });
-            }
-
-            /* VSEOBECNE */
-
-            refreshTable();
-
-            //zobrazenie - skrytie menu
-            $('#mainMenuHide').click(function () { animujMenu(-280); });
-            $('#mainMenuShow').click(function () { animujMenu(0); });
-            function animujMenu() {
-                var leftMargin = (parseInt($('#mainMenu').css('left')) == 0) ? -280 : 0;
-                $('#mainMenu').stop().animate({ left: leftMargin.toString() + 'px' }, 250);
-            }
-
-            //zobrazenie - skrytie tabulky
-            function toggleTab() {
-                $('#scoreTable').fadeToggle(300);
-            }
-
-            //tabulka
-            $('.tabBtn').click(function () { addPoints($(this)); });
-            $('.tabInput').keydown(function (e) {
-                if (e.keyCode == 13) {    //enter
-                    addPoints($(this));
-                }
-            });
-            function addPoints(toto) {
-                var index = parseInt(toto.parent().parent().attr('id'));
-                var stare = $.cookie('player' + index);
-                if (stare === undefined) {
-                    $.cookie('player' + index, 0, { path: '/' });
-                }
-
-                var nove = parseInt(stare) + parseInt($('#' + index + ' input').val());
-                if (nove || nove === 0) {
-                    $.cookie('player' + index, nove, { path: '/' });
-                }
-                refreshTable();
-            }
-
-            //refresh hodnot z tabulky
-            function refreshTable() {
-                var vypisy = $('.out');
-                for (var i = 0; i < vypisy.length; i++) {
-                    var index = parseInt($(vypisy[i]).parent().attr('id'));
-                    var hodnota = $.cookie('player' + index);
-                    if (hodnota === undefined) {
-                        $.cookie('player' + index, 0, { path: '/' });
-                    }
-                    $(vypisy[i]).html(hodnota);
-                    $('#' + index + ' input').val('');
-                }
-            }
-
-            //vstupy z klavesnice
-            $(window).keydown(function (e) {
-
-                if (e.keyCode == 77) {              //M
-                    animujMenu();
-                } else if (e.keyCode == 84) {       //T
-                    toggleTab();
-                } else if (e.keyCode == 27) {       //esc
-                    $('#scoreTable').fadeOut(300);
-                }
-                //audio
-                else if (e.keyCode == 32) {       //space
-                    if ("activeElement" in document) {
-                        document.activeElement.blur();
-                    }
-                    $('#playBtn').focus().blur();
-                    hrajAudio();
-                } else if (e.keyCode == 13) {       //enter
-                    zmenObrazok();
-                }
-            });
-        });
-    </script>
+    <script src="js/vlastne/spolocne.js"></script>
+    <script src="js/vlastne/piesne.js"></script>
 </body>
 
 </html>

@@ -8,7 +8,6 @@
 body{
     margin: 0;
 }
-
 .stopFloat{
     clear: both;
 }
@@ -95,6 +94,8 @@ body{
     background-color: rgba(0, 0, 0, 0.2);
 }
 .help{
+    max-height: calc(100vh - 300px);
+    overflow: auto;
     background-color: rgba(200, 200, 200, 0.4);
     margin: 10px;
     padding: 15px;
@@ -140,7 +141,7 @@ body{
     border-radius: 3px;
 }
 .tabBtn:hover{
-    
+
     background-color: #5c4912;
     color: #fff3d1;
 }
@@ -183,6 +184,11 @@ body{
     background-color: #577aa3;
     color: #283655;
 }
+@media only screen and (max-width: 720px) {
+    #sourceList button{
+        font-size: 15px;
+    }
+}
 
 /* Pesnicky */
 #audioWrapper{
@@ -191,19 +197,21 @@ body{
 }
 #otaznik{
     padding: 0;
-    margin: 30px;
-    height: calc(100vh - 400px);
-    max-height: 630px;
+    margin: 0px 0px 30px;
+    height: calc(93vh - 180px);
+    /*max-height: 630px;*/
     background-image: url('../data/images/otaznik.png');
     background-repeat: no-repeat;
-    background-size: auto 100%;
+    background-size: contain;
     background-position: center;
 }
 #playBtn{
     display: block;
     margin: 0 auto;
-    width: 64px;
-    height: 64px;
+    width: 7vh;
+    height: 7vh;
+    max-width: 64px;
+    max-height: 64px;
     border: none;
     background-color: transparent;
     background-image: url('../data/images/play.png');
@@ -239,8 +247,77 @@ body{
     font-family: digital;
 }
 
-#slovaNastavenie, #partyNastavenie{
+#slovaNastavenie{
     position: fixed;
+    background-color: rgba(231, 235, 252, 0.6);
+    padding: 10px;
     top: 20px;
     right: 20px;
+}
+
+/* Party */
+#partyStav{
+    position: fixed;
+    background-color: rgba(231, 235, 252, 0.6);
+    padding: 10px;
+    top: 100px;
+    right: 0px;
+    text-align: right;
+    min-width: 110px;
+}
+#partyBody, #partyCas{
+    padding: 20px;
+    font-size: 30px;
+}
+#partyCas{
+    font-family: digital;
+}
+#partyNastavenie{
+    position: fixed;
+    background-color: rgba(231, 235, 252, 0.6);
+    padding: 10px;
+    top: 100px;
+    left: 20px;
+}
+
+#sourceListParty{
+    width: calc(100% - 50px);
+    min-height: 44px;
+    padding: 10px 25px;
+}
+#sourceListParty button{
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    margin: 3px;
+    border: none;
+    border-radius: 8px;
+    background-color: #283655;
+    cursor: pointer;
+    transition: all 200ms;
+}
+#sourceListParty button:hover{
+    background-color: #577aa3;
+}
+#sourceListParty button.active{
+    background-color: white;
+    box-shadow: 0px 0px 4px #283655;
+}
+
+#partyObr{
+    padding: 0;
+    margin: 0px 0px 30px;
+    height: calc(93vh - 180px);
+    /*max-height: 630px;*/
+    background-image: url('../data/images/party/p1.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+#partyText{
+    display: none;
+    text-align: center;
+    font-size: 24px;
 }

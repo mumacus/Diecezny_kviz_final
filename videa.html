@@ -66,7 +66,7 @@
             <div class="help">
                 M - zobraz menu<br>
                 T - zobraz tabulku<br>
-                'medzera' - spusti (zastav) časovač<br>
+                'medzera' - spusti (zastav) video<br>
                 <!--N - správna odpoveď<br>
                 B - nesprávna odpoveď<br>
                 <br>
@@ -88,107 +88,12 @@
         </div>
         <div id="videoWrapper">
             <video controls>
-                <source src="data/videos/v1.mp4" type="video/mp4">
+                <source src="data/video/v1.mp4" type="video/mp4">
             </video>
         </div>
     </div>
-    <script>
-        $(function () {
-
-            //zmena videa
-            $('#sourceList button').click(zmenVideo);
-            function zmenVideo() {
-                $('#videoWrapper video')[0].pause();
-                $('#videoWrapper video')[0].currentTime = 0;
-                var cesta = 'data/videos/' + $(this).attr('id') + '.mp4';
-                $('#videoWrapper video source').attr({ src: cesta });
-                $('#videoWrapper video')[0].load();
-            }
-
-            //prehravanie
-            function hrajVideo() {
-                if ($('#videoWrapper video')[0].paused) {
-                    $('#videoWrapper video')[0].play();
-                } else {
-                    $('#videoWrapper video')[0].pause();
-                }
-            }
-
-            /* VSEOBECNE */
-
-            refreshTable();
-
-            //zobrazenie - skrytie menu
-            $('#mainMenuHide').click(function () { animujMenu(-280); });
-            $('#mainMenuShow').click(function () { animujMenu(0); });
-            function animujMenu() {
-                var leftMargin = (parseInt($('#mainMenu').css('left')) == 0) ? -280 : 0;
-                $('#mainMenu').stop().animate({ left: leftMargin.toString() + 'px' }, 250);
-            }
-
-            //zobrazenie - skrytie tabulky
-            function toggleTab() {
-                $('#scoreTable').fadeToggle(300);
-            }
-
-            //tabulka
-            $('.tabBtn').click(function () { addPoints($(this)); });
-            $('.tabInput').keydown(function (e) {
-                if (e.keyCode == 13) {    //enter
-                    addPoints($(this));
-                }
-            });
-            function addPoints(toto) {
-                var index = parseInt(toto.parent().parent().attr('id'));
-                var stare = $.cookie('player' + index);
-                console.log($.cookie());
-                if (stare === undefined) {
-                    $.cookie('player' + index, 0, { path: '/' });
-                }
-
-                var nove = parseInt(stare) + parseInt($('#' + index + ' input').val());
-                if (nove || nove === 0) {
-                    $.cookie('player' + index, nove, { path: '/' });
-                }
-                refreshTable();
-            }
-
-            //refresh hodnot z tabulky
-            function refreshTable() {
-                var vypisy = $('.out');
-                for (var i = 0; i < vypisy.length; i++) {
-                    var index = parseInt($(vypisy[i]).parent().attr('id'));
-                    var hodnota = $.cookie('player' + index);
-                    if (hodnota === undefined) {
-                        $.cookie('player' + index, 0, { path: '/' });
-                    }
-                    $(vypisy[i]).html(hodnota);
-                    $('#' + index + ' input').val('');
-                }
-            }
-
-            //vstupy z klavesnice
-            $(window).keydown(function (e) {
-
-                if (e.keyCode == 77) {              //M
-                    animujMenu();
-                } else if (e.keyCode == 84) {       //T
-                    toggleTab();
-                } else if (e.keyCode == 27) {       //esc
-                    $('#scoreTable').fadeOut(300);
-                }
-                //video
-                else if (e.keyCode == 32) {       //space
-                    if ("activeElement" in document) {
-                        document.activeElement.blur();
-                    }
-                    $('#sourceList button').focus().blur();
-
-                    hrajVideo();
-                }
-            });
-        });
-    </script>
+    <script src="js/vlastne/spolocne.js"></script>
+    <script src="js/vlastne/videa.js"></script>
 </body>
 
 </html>
