@@ -9,15 +9,6 @@ $(function () {
         $('#videoWrapper video')[0].load();
     }
 
-    //prehravanie
-    function hrajVideo() {
-        if ($('#videoWrapper video')[0].paused) {
-            $('#videoWrapper video')[0].play();
-        } else {
-            $('#videoWrapper video')[0].pause();
-        }
-    }
-
     $(window).keydown(function(e) {
         keydownSpolocne(e);
         if (e.keyCode == 32) {       //space
@@ -29,3 +20,13 @@ $(function () {
         }
     });
 });
+
+
+//prehravanie
+function hrajVideo() {
+    if ($('#videoWrapper video')[0].paused) {
+        $('#videoWrapper video')[0].play();
+    } else {
+        $('#videoWrapper video')[0].pause();
+    }
+}
