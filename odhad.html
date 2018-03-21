@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/jqc/jquery.cookie.js"></script>
-    <title>Diecézny kvíz | Párty</title>
+    <title>Diecézny kvíz | Odhad</title>
 </head>
 
 <body>
@@ -24,15 +24,8 @@
             <div class="help">
                 M - zobraz menu
                 <br> T - zobraz tabulku
-                <br> 'medzera' - spusti (zastav) časovač
-                <br> 'enter' - zobraz odpoveď / otázku
-                <br> N - správna odpoveď
-                <br> B - nesprávna odpoveď
+                <br> 'enter' - zobraz otázku
                 <br> šípky vľavo, vpravo - prepínanie otázok
-                <br>
-                <br> O - zobraz nastavenia
-                <br> + - pridaj bod (bez zvuku)
-                <br> - - uber bod (bez zvuku)
                 <br>
             </div>
         </div>
@@ -40,26 +33,15 @@
             <</div>
     </nav>
     <div id="container">
-        <div id="sourceListParty"></div>
-        <div id="partyWrapper">
-            <p id="partyObr"></p>
-            <p id="partyOtazka"></p>
-            <p id="partyOdpoved"></p>
-        </div>
-        <div id="partyStav">
-            <div id="partyBody">0</div>
-            <hr>
-            <div id="partyCas"></div>
-        </div>
-        <div id="partyNastavenie" style="display: none;">
-            Hodnota časovača:
-            <input type="text" value="90">
+        <div id="sourceListOdhad"></div>
+        <div id="odhadWrapper">
+            <p id="odhadObr"></p>
+            <p id="odhadOtazka"></p>
         </div>
     </div>
     <script src="nastavenia.js"></script>
     <script src="js/vlastne/spolocne.js"></script>
-    <script src="js/vlastne/casAbody.js"></script>
-    <script src="js/vlastne/party.js"></script>
+    <script src="js/vlastne/odhad.js"></script>
 </body>
 
 </html>

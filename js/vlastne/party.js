@@ -8,7 +8,7 @@ $(function () {
         keydownCasAbody(e);
         //party
         if (e.keyCode == 13) {       //enter
-            $('#partyText').stop().fadeToggle();
+            otazkaOdpoved();
         } else if (e.keyCode == 37) {       //lava sipka
             zmena(-1);
         } else if (e.keyCode == 39) {       //prava sipka
@@ -17,17 +17,32 @@ $(function () {
     });
 });
 
+function otazkaOdpoved(){
+    if($('#partyOtazka').css('display') == 'none'){
+        $('#partyOdpoved').stop().fadeOut(200, function(){
+            $('#partyOtazka').stop().fadeIn(200);
+        });
+    } else {
+        $('#partyOtazka').stop().fadeOut(200, function(){
+            $('#partyOdpoved').stop().fadeIn(200);
+        });
+    }
+}
+
 function generujParty(){
     var partyTlacidla = '';
-    for(var i = 0; i < zoznamOtazok.length; i++){
+    for(var i = 0; i < zoznamOtazokParty.length; i++){
         var indexik = i + 1;
-        partyTlacidla += '<button><span hidden>' + indexik +
-        '. ' + zoznamOtazok[i] + '</span></button>';
+        partyTlacidla += '<button>' +
+        '<span class="otazka" hidden>' + indexik + '. ' + zoznamOtazokParty[i][0] + '</span>' +
+        '<span class="odpoved" hidden>' + indexik + '. ' + zoznamOtazokParty[i][1] + '</span>' +
+        '</button>';
     }
     partyTlacidla += '<p class="stopFloat"></p>';
     $('#sourceListParty').html(partyTlacidla);
 
-    $('#partyText').html($('#sourceListParty button').first().children('span').html());
+    $('#partyOtazka').html($('#sourceListParty button').first().children('span.otazka').html());
+    $('#partyOdpoved').html($('#sourceListParty button').first().children('span.odpoved').html());
     $('#sourceListParty button').first().addClass('active');
     $('#sourceListParty button').click(function () { zmena(false, $(this)) });
 }
@@ -42,8 +57,9 @@ function zmena(smer, toto) {
     var index = toto.index() + 1;
     $('#sourceListParty button.active').removeClass('active');
     toto.addClass('active');
-    $('#partyText').fadeOut(200, function () {
-        $(this).html(toto.children('span').html());
+    $('#partyOdpoved').fadeOut(200, function () {
+        $('#partyOdpoved').html(toto.children('span.odpoved').html());
+        $('#partyOtazka').hide().html(toto.children('span.otazka').html()).fadeIn(200);
     });
     zmenObrazok(index);
     if ("activeElement" in document) {

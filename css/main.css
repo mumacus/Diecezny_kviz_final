@@ -321,8 +321,11 @@ body{
     background-position: center;
 }
 
-#partyText{
-    display: none;
+#partyOtazka, #partyOdpoved{
     text-align: center;
     font-size: 24px;
+}
+#partyOdpoved{
+    display: none;
+    font-weight: bold;
 }
