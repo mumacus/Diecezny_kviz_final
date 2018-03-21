@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jqc/jquery.cookie.js"></script>
+    <title>Diecézny kvíz | Videá</title>
+</head>
+
+<body>
+
+    <div id="scoreTable">
+        <table>
+            <tr>
+                <td colspan="4">
+                    <h2>Tabuľka výsledkov</h2>
+                </td>
+            </tr>
+
+            <tr id="0">
+                <td>Fero</td>
+                <td class="out">0</td>
+                <td>
+                    <input class="tabInput" type="text">
+                </td>
+                <td>
+                    <button class="tabBtn">+</button>
+                </td>
+            </tr>
+
+            <tr id="1">
+                <td>Jožo</td>
+                <td class="out">0</td>
+                <td>
+                    <input class="tabInput" type="text">
+                </td>
+                <td>
+                    <button class="tabBtn">+</button>
+                </td>
+            </tr>
+
+            <tr id="2">
+                <td>Mišo</td>
+                <td class="out">0</td>
+                <td>
+                    <input class="tabInput" type="text">
+                </td>
+                <td>
+                    <button class="tabBtn">+</button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div id="mainMenuShow"></div>
+    <nav id="mainMenu">
+        <div id="mainMenuButtons">
+            <a class="menuItem active" href="videa.html">Videá</a>
+            <a class="menuItem" href="piesne.html">Pesničky</a>
+            <a class="menuItem" href="slova.html">Hádanie slov</a>
+            <a class="menuItem" href="party.html">Párty</a>
+            <a class="menuItem" href="odhad.html">Odhad</a>
+            <div class="help">
+                M - zobraz menu<br>
+                T - zobraz tabulku<br>
+                'medzera' - spusti (zastav) časovač<br>
+                <!--N - správna odpoveď<br>
+                B - nesprávna odpoveď<br>
+                <br>
+                O - zobraz nastavenia<br>
+                + - pridaj bod (bez zvuku)<br>
+                - - uber bod (bez zvuku)<br>-->
+            </div>
+        </div>
+        <div id="mainMenuHide">
+            <</div>
+    </nav>
+    <div id="container">
+        <div id="sourceList">
+            <button id="v1">Video 1</button>
+            <button id="v2">Video 2</button>
+            <button id="v3">Video 3</button>
+            <button id="v4">Video 4</button>
+            <div class="stopFloat"></div>
+        </div>
+        <div id="videoWrapper">
+            <video controls>
+                <source src="data/videos/v1.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <script>
+        $(function () {
+
+            //zmena videa
+            $('#sourceList button').click(zmenVideo);
+            function zmenVideo() {
+                $('#videoWrapper video')[0].pause();
+                $('#videoWrapper video')[0].currentTime = 0;
+                var cesta = 'data/videos/' + $(this).attr('id') + '.mp4';
+                $('#videoWrapper video source').attr({ src: cesta });
+                $('#videoWrapper video')[0].load();
+            }
+
+            //prehravanie
+            function hrajVideo() {
+                if ($('#videoWrapper video')[0].paused) {
+                    $('#videoWrapper video')[0].play();
+                } else {
+                    $('#videoWrapper video')[0].pause();
+                }
+            }
+
+            /* VSEOBECNE */
+
+            refreshTable();
+
+            //zobrazenie - skrytie menu
+            $('#mainMenuHide').click(function () { animujMenu(-280); });
+            $('#mainMenuShow').click(function () { animujMenu(0); });
+            function animujMenu() {
+                var leftMargin = (parseInt($('#mainMenu').css('left')) == 0) ? -280 : 0;
+                $('#mainMenu').stop().animate({ left: leftMargin.toString() + 'px' }, 250);
+            }
+
+            //zobrazenie - skrytie tabulky
+            function toggleTab() {
+                $('#scoreTable').fadeToggle(300);
+            }
+
+            //tabulka
+            $('.tabBtn').click(function () { addPoints($(this)); });
+            $('.tabInput').keydown(function (e) {
+                if (e.keyCode == 13) {    //enter
+                    addPoints($(this));
+                }
+            });
+            function addPoints(toto) {
+                var index = parseInt(toto.parent().parent().attr('id'));
+                var stare = $.cookie('player' + index);
+                console.log($.cookie());
+                if (stare === undefined) {
+                    $.cookie('player' + index, 0, { path: '/' });
+                }
+
+                var nove = parseInt(stare) + parseInt($('#' + index + ' input').val());
+                if (nove || nove === 0) {
+                    $.cookie('player' + index, nove, { path: '/' });
+                }
+                refreshTable();
+            }
+
+            //refresh hodnot z tabulky
+            function refreshTable() {
+                var vypisy = $('.out');
+                for (var i = 0; i < vypisy.length; i++) {
+                    var index = parseInt($(vypisy[i]).parent().attr('id'));
+                    var hodnota = $.cookie('player' + index);
+                    if (hodnota === undefined) {
+                        $.cookie('player' + index, 0, { path: '/' });
+                    }
+                    $(vypisy[i]).html(hodnota);
+                    $('#' + index + ' input').val('');
+                }
+            }
+
+            //vstupy z klavesnice
+            $(window).keydown(function (e) {
+
+                if (e.keyCode == 77) {              //M
+                    animujMenu();
+                } else if (e.keyCode == 84) {       //T
+                    toggleTab();
+                } else if (e.keyCode == 27) {       //esc
+                    $('#scoreTable').fadeOut(300);
+                }
+                //video
+                else if (e.keyCode == 32) {       //space
+                    if ("activeElement" in document) {
+                        document.activeElement.blur();
+                    }
+                    $('#sourceList button').focus().blur();
+
+                    hrajVideo();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

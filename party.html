@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jqc/jquery.cookie.js"></script>
+    <title>Diecézny kvíz | Párty</title>
+</head>
+
+<body>
+
+    <div id="scoreTable">
+        <table>
+            <tr>
+                <td colspan="4">
+                    <h2>Tabuľka výsledkov</h2>
+                </td>
+            </tr>
+
+            <tr id="0">
+                <td>Fero</td>
+                <td class="out">0</td>
+                <td>
+                    <input class="tabInput" type="text">
+                </td>
+                <td>
+                    <button class="tabBtn">+</button>
+                </td>
+            </tr>
+
+            <tr id="1">
+                <td>Jožo</td>
+                <td class="out">0</td>
+                <td>
+                    <input class="tabInput" type="text">
+                </td>
+                <td>
+                    <button class="tabBtn">+</button>
+                </td>
+            </tr>
+
+            <tr id="2">
+                <td>Mišo</td>
+                <td class="out">0</td>
+                <td>
+                    <input class="tabInput" type="text">
+                </td>
+                <td>
+                    <button class="tabBtn">+</button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div id="mainMenuShow"></div>
+    <nav id="mainMenu">
+        <div id="mainMenuButtons">
+            <a class="menuItem" href="videa.html">Videá</a>
+            <a class="menuItem" href="piesne.html">Pesničky</a>
+            <a class="menuItem" href="slova.html">Hádanie slov</a>
+            <a class="menuItem active" href="party.html">Párty</a>
+            <a class="menuItem" href="odhad.html">Odhad</a>
+            <div class="help">
+                M - zobraz menu
+                <br> T - zobraz tabulku
+                <br> 'medzera' - spusti (zastav) časovač
+                <br> N - správna odpoveď
+                <br> B - nesprávna odpoveď
+                <br>
+                <br> O - zobraz nastavenia
+                <br> + - pridaj bod (bez zvuku)
+                <br> - - uber bod (bez zvuku)
+                <br>
+            </div>
+        </div>
+        <div id="mainMenuHide">
+            <</div>
+    </nav>
+    <div id="container">
+        <div id="partyBody">0</div>
+        <div id="partyCas"></div>
+        <div id="partyNastavenie" style="display: none;">
+            Hodnota časovača:
+            <input type="text" value="90">
+        </div>
+    </div>
+    <script>
+        $(function () {
+
+            //casovac
+            var body = 0;
+            var maxTime = $.cookie('maxTime');
+            var defaultCountdown = 10;
+            var countdown = defaultCountdown;
+            if (maxTime !== undefined) {
+                $('#partyNastavenie input').val(maxTime);
+            }
+            changeMaxTime();
+            var timeLeft = parseFloat(maxTime);
+            var timerRuns = false;
+            $('#partyNastavenie input').on('input', changeMaxTime);
+            function changeMaxTime() {
+                maxTime = parseInt($('#partyNastavenie input').val());
+                $.cookie('maxTime', maxTime, { path: '/' });
+                timerRuns = false;
+                timeLeft = maxTime;
+                body = 0;
+                if (maxTime <= defaultCountdown)
+                    countdown = maxTime - 1;
+                else
+                    countdown = defaultCountdown;
+            }
+            var halfTime = 50;
+            setInterval(timerLoop, 2 * halfTime);
+            var vtedy = $.now();
+            function timerLoop() {
+                var teraz = $.now();
+                var delta = (teraz - vtedy) / 1000;
+                if (timerRuns) {
+                    timeLeft -= delta;
+                    if (timeLeft <= 0) fajront();
+                }
+                var zobrazenyCas = timeLeft.toFixed(1);
+                if (zobrazenyCas == countdown) {
+                    var dobre = new Audio('data/audio/misc/beep.mp3');
+                    dobre.play();
+                    countdown -= 1;
+                    if (countdown == 0) countdown = defaultCountdown;
+                }
+                $('#partyCas').html(timeLeft.toFixed(1));
+                $('#partyBody').html(body);
+                vtedy = teraz;
+            }
+            function spustiCasovac() {
+                timerRuns = !timerRuns;
+            }
+            //party
+            function pridajBod() {
+                var dobre = new Audio('data/audio/misc/dobre.mp3');
+                dobre.play();
+                body += 1;
+            }
+
+            function neuberBod() {
+                var zle = new Audio('data/audio/misc/zle.mp3');
+                zle.play();
+            }
+
+            function fajront() {
+                var bomba = new Audio('data/audio/misc/explosiveEnd.mp3');
+                bomba.play();
+                timerRuns = false;
+                timeLeft = 0;
+                setTimeout(function () {
+                    var konec = new Audio('data/audio/misc/koniec.mp3');
+                    konec.play();
+                }, 1200);
+            }
+
+            /* VSEOBECNE */
+
+            refreshTable();
+
+            //zobrazenie - skrytie menu
+            $('#mainMenuHide').click(function () { animujMenu(-280); });
+            $('#mainMenuShow').click(function () { animujMenu(0); });
+            function animujMenu() {
+                var leftMargin = (parseInt($('#mainMenu').css('left')) == 0) ? -280 : 0;
+                $('#mainMenu').stop().animate({ left: leftMargin.toString() + 'px' }, 250);
+            }
+
+            //zobrazenie - skrytie tabulky
+            function toggleTab() {
+                $('#scoreTable').fadeToggle(300);
+            }
+
+            //tabulka
+            $('.tabBtn').click(function () { addPoints($(this)); });
+            $('.tabInput').keydown(function (e) {
+                if (e.keyCode == 13) {    //enter
+                    addPoints($(this));
+                }
+            });
+            function addPoints(toto) {
+                var index = parseInt(toto.parent().parent().attr('id'));
+                var stare = $.cookie('player' + index);
+                if (stare === undefined) {
+                    $.cookie('player' + index, 0, { path: '/' });
+                }
+
+                var nove = parseInt(stare) + parseInt($('#' + index + ' input').val());
+                if (nove || nove === 0) {
+                    $.cookie('player' + index, nove, { path: '/' });
+                }
+                refreshTable();
+            }
+
+            //refresh hodnot z tabulky
+            function refreshTable() {
+                var vypisy = $('.out');
+                for (var i = 0; i < vypisy.length; i++) {
+                    var index = parseInt($(vypisy[i]).parent().attr('id'));
+                    var hodnota = $.cookie('player' + index);
+                    if (hodnota === undefined) {
+                        $.cookie('player' + index, 0, { path: '/' });
+                    }
+                    $(vypisy[i]).html(hodnota);
+                    $('#' + index + ' input').val('');
+                }
+            }
+
+            //vstupy z klavesnice
+            $(window).keydown(function (e) {
+
+                if (e.keyCode == 77) {              //M
+                    animujMenu();
+                } else if (e.keyCode == 84) {       //T
+                    toggleTab();
+                } else if (e.keyCode == 27) {       //esc
+                    $('#scoreTable').fadeOut(300);
+                }
+                //casovac
+                else if (e.keyCode == 32) {       //space
+                    if ("activeElement" in document) {
+                        document.activeElement.blur();
+                    }
+                    spustiCasovac();
+                }
+                //nastavenia
+                else if (e.keyCode == 79) {       //O
+                    $('#partyNastavenie').slideToggle(200);
+                }
+                //party
+                else if (e.keyCode == 107) {       //+
+                    body += 1;
+                } else if (e.keyCode == 109 || e.keyCode == 173) {       //-
+                    body -= 1;
+                } else if (timerRuns && e.keyCode == 66) {       //B
+                    neuberBod();
+                } else if (timerRuns && e.keyCode == 78) {       //N
+                    pridajBod();
+                } else if (e.keyCode == 82) {       //R
+                    changeMaxTime();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
