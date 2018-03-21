@@ -5,7 +5,7 @@
 
 var nazovStranky = document.location.pathname.match(/[^\/]+$/)[0];
 nazovStranky = nazovStranky.substring(0, 5);
-console.log(nazovStranky);
+
 var body = 0;
 var defaultCountdown = 10;
 var countdown = defaultCountdown;

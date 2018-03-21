@@ -3,15 +3,42 @@
 $(function () {
     $('#mainMenuHide').click(function () { animujMenu(-280); });
     $('#mainMenuShow').click(function () { animujMenu(0); });
-    nacitajTabulku();
     //tabulka
+    generujTabulku();
+});
+
+//generovanie tabulky
+function generujTabulku(){
+    var tabulka = '<table>' +
+    '<tr>' +
+    '<td colspan="4">' +
+    '<h2>Tabuľka výsledkov</h2>' +
+    '</td>' +
+    '</tr>';
+    for(var i = 0; i < zoznamTimov.length; i++){
+        tabulka += '<tr id="' + i + '">' +
+        '<td>' + zoznamTimov[i] + '</td>' +
+          '<td class="out">0</td>' +
+          '<td>' +
+            '<input class="tabInput" type="text">' +
+          '</td>' +
+          '<td>' +
+            '<button class="tabBtn">+</button>' +
+          '</td>' +
+        '</tr>';
+    }
+    tabulka += '</table>';
+    $('#scoreTable').html(tabulka);
+    nacitajTabulku();
     $('.tabBtn').click(function () { pridajBodyDoTabulky($(this)); });
     $('.tabInput').keydown(function (e) {
         if (e.keyCode == 13) {    //enter
             pridajBodyDoTabulky($(this));
         }
     });
-});
+}
+
+
 //zobrazenie - skrytie menu
 function animujMenu() {
     var lavyMargin = (parseInt($('#mainMenu').css('left')) == 0) ? -280 : 0;

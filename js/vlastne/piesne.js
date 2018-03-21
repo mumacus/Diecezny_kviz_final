@@ -1,7 +1,9 @@
 $(function () {
+
+    generujSkladby();
+
     //zmena audia
     $('#playBtn').click(hrajAudio);
-    $('#sourceList button').click(zmenAudio);
 
     //vstupy z klavesnice
     $(window).keydown(function (e) {
@@ -21,6 +23,18 @@ $(function () {
         }
     });
 });
+
+function generujSkladby(){
+    var audioTlacidla = '';
+    for(var i = 0; i < pocetPiesni; i++){
+        var indexik = i + 1;
+        audioTlacidla += '<div><button id="a' + indexik + '">' + indexik + '</button></div>';
+    }
+    //audioTlacidla += '<p class="stopFloat"></p>';
+    $('#sourceList').html(audioTlacidla);
+
+    $('#sourceList button').click(zmenAudio);
+}
 
 function hrajAudio() {
     if ($('#audioWrapper audio')[0].paused) {

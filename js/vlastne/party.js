@@ -1,8 +1,7 @@
 $(function () {
 
-    //prepinanie
-    $('#partyText').html($('#sourceListParty button').first().children('span').html());
-    $('#sourceListParty button').click(function () { zmena(false, $(this)) });
+    generujParty();
+
     //vstupy z klavesnice
     $(window).keydown(function (e) {
         keydownSpolocne(e);
@@ -17,6 +16,21 @@ $(function () {
         }
     });
 });
+
+function generujParty(){
+    var partyTlacidla = '';
+    for(var i = 0; i < zoznamOtazok.length; i++){
+        var indexik = i + 1;
+        partyTlacidla += '<button><span hidden>' + indexik +
+        '. ' + zoznamOtazok[i] + '</span></button>';
+    }
+    partyTlacidla += '<p class="stopFloat"></p>';
+    $('#sourceListParty').html(partyTlacidla);
+
+    $('#partyText').html($('#sourceListParty button').first().children('span').html());
+    $('#sourceListParty button').first().addClass('active');
+    $('#sourceListParty button').click(function () { zmena(false, $(this)) });
+}
 
 function zmena(smer, toto) {
     if (smer !== false) {

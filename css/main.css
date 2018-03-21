@@ -9,6 +9,7 @@ body{
     margin: 0;
 }
 .stopFloat{
+    flex: none;
     clear: both;
 }
 #container{
@@ -164,13 +165,17 @@ body{
     width: 100%;
     height: 40px;
     padding-bottom: 30px;
+
+    display: flex;
 }
-#sourceList button{
+#sourceList div{
+    flex: 1;
+}
+#sourceList div button{
     display: block;
-    float: left;
-    width: 21%;
+    width: 80%;
     height: 40px;
-    margin: 0 2%;
+    margin: 0 10%;
     border: none;
     background-color: #283655;
     color: white;
@@ -180,12 +185,12 @@ body{
     cursor: pointer;
     transition: all 200ms;
 }
-#sourceList button:hover{
+#sourceList div button:hover{
     background-color: #577aa3;
     color: #283655;
 }
-@media only screen and (max-width: 720px) {
-    #sourceList button{
+@media only screen and (max-width: 1000px) {
+    #sourceList div button{
         font-size: 15px;
     }
 }
