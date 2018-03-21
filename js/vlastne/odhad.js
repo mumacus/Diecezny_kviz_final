@@ -47,7 +47,7 @@ function zmena(smer, toto) {
     $('#sourceListOdhad button.active').removeClass('active');
     toto.addClass('active');
     $('#odhadOtazka').fadeOut(200, function () {
-        $('#odhadOtazka').html(toto.children('span.otazka').html()).fadeIn(200);
+        $('#odhadOtazka').html(toto.children('span.otazka').html());
     });
     zmenObrazok(index);
     if ("activeElement" in document) {
@@ -57,7 +57,7 @@ function zmena(smer, toto) {
 }
 function zmenObrazok(index) {
     $('#odhadObr').fadeOut(200, function () {
-        var cesta = "url('data/images/odhad/p" + index + ".jpg')";
+        var cesta = "url('data/images/odhad/o" + index + ".jpg')";
         $(this).css('background-image', cesta).fadeIn(200);
     });
 }

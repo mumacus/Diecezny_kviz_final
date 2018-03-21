@@ -285,12 +285,12 @@ body{
     left: 20px;
 }
 
-#sourceListParty{
+#sourceListParty, #sourceListOdhad{
     width: calc(100% - 50px);
     min-height: 44px;
     padding: 10px 25px;
 }
-#sourceListParty button{
+#sourceListParty button, #sourceListOdhad button{
     display: block;
     float: left;
     width: 16px;
@@ -302,15 +302,15 @@ body{
     cursor: pointer;
     transition: all 200ms;
 }
-#sourceListParty button:hover{
+#sourceListParty button:hover, #sourceListOdhad button:hover{
     background-color: #577aa3;
 }
-#sourceListParty button.active{
+#sourceListParty button.active, #sourceListOdhad button.active{
     background-color: white;
     box-shadow: 0px 0px 4px #283655;
 }
 
-#partyObr{
+#partyObr, #odhadObr{
     padding: 0;
     margin: 0px 0px 30px;
     height: calc(93vh - 180px);
@@ -320,12 +320,18 @@ body{
     background-size: contain;
     background-position: center;
 }
+#odhadObr{
+    background-image: url('../data/images/odhad/o1.jpg');
+}
 
-#partyOtazka, #partyOdpoved{
+#partyOtazka, #partyOdpoved, #odhadOtazka{
     text-align: center;
     font-size: 24px;
 }
 #partyOdpoved{
     display: none;
     font-weight: bold;
+}
+#odhadOtazka{
+    display: none;
 }

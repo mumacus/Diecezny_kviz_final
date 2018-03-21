@@ -14,11 +14,11 @@ var zoznamOtazokParty = [     //do Party:  ['otazka', 'odpoved']
     ['Preco to spravili?', 'Lebo mohli'],
     ['Na com sa smeje?', 'Len tak'],
     ['555', 'Chuck'],
-    ['6666', 'Chuck'],
+    ['6666', 'Chuck']
 ];
-var zoznamOtazokParty = [     //do Odhadu
+var zoznamOtazokOdhad = [     //do Odhadu
     'Ako sa volá ujo na obrázku?',
     'Naco je ujovi mikrofon?',
     'Preco to spravili?',
-    'Na com sa smeje?',
+    'Na com sa smeje?'
 ];
