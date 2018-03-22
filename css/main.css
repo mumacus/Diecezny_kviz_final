@@ -394,8 +394,11 @@ body{
     bottom: 0;
     margin: auto;
 }
-.koleso{
+.koleso, .ukazovatko{
     max-height: 80vh;
+}
+.ukazovatko{
+    transform: translate(0, -5vh);
 }
 .logo{
     max-height: 20vh;
