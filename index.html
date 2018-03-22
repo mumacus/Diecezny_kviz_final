@@ -3,11 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; URL=videa.html">
-    <title>Diecézny kvíz</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jqc/jquery.cookie.js"></script>
+    <title>Diecézny kvíz | Intro</title>
 </head>
 
 <body>
+
+    <div id="scoreTable"></div>
+
+    <div id="mainMenuShow"></div>
+    <nav id="mainMenu">
+        <div id="mainMenuButtons">
+            <a class="menuItem active" href="index.html">Intro</a>
+            <a class="menuItem" href="videa.html">Videá</a>
+            <a class="menuItem" href="piesne.html">Pesničky</a>
+            <a class="menuItem" href="slova.html">Hádanie slov</a>
+            <a class="menuItem" href="party.html">Párty</a>
+            <a class="menuItem" href="odhad.html">Odhad</a>
+            <div class="help">
+                M - zobraz menu<br>
+                T - zobraz tabulku<br>
+                'medzera' - spusti (zastav) video<br>
+            </div>
+        </div>
+        <div id="mainMenuHide"><</div>
+    </nav>
+    <div id="container">
+        <div id="logoHolder">
+            <img src="data/images/logo.png" alt="">
+        </div>
+        <div id="videoWrapperIntro">
+            <video controls>
+                <source src="data/video/intro.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <script src="nastavenia.js"></script>
+    <script src="js/vlastne/spolocne.js"></script>
+    <script src="js/vlastne/videa.js"></script>
 </body>
 
 </html>
