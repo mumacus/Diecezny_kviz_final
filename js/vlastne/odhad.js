@@ -8,6 +8,8 @@ $(function () {
         //odhad
         if (e.keyCode == 13) {       //enter
             zobrazOtazku();
+        } else if (e.keyCode == 32) {       //space
+            zatocKolesom();
         } else if (e.keyCode == 37) {       //lava sipka
             zmena(-1);
         } else if (e.keyCode == 39) {       //prava sipka
@@ -15,6 +17,26 @@ $(function () {
         }
     });
 });
+var uhol;
+function zatocKolesom(){
+    var nahoda = Math.floor(Math.random() * 16);
+    uhol = nahoda * 22.5;
+    var velkyUhol = uhol + 360 * 4;
+    $('#kolesoHolder .koleso').stop().animate({ borderSpacing: velkyUhol }, {
+        step: function(now,fx) {
+            $(this).css('-webkit-transform','rotate('+now+'deg)');
+            $(this).css('-moz-transform','rotate('+now+'deg)');
+            $(this).css('transform','rotate('+now+'deg)');
+        },
+        duration: 2000,
+        easing: 'swing',
+        complete: function(){
+            $('#kolesoHolder .koleso').css('-webkit-transform', 'rotate(' + uhol + 'deg)');
+            $('#kolesoHolder .koleso').css('-moz-transform', 'rotate(' + uhol + 'deg)');
+            $('#kolesoHolder .koleso').css('transform', 'rotate(' + uhol + 'deg)');
+        }
+    });
+}
 
 function zobrazOtazku(){
     $('#odhadOtazka').stop().fadeToggle(200, function(){});

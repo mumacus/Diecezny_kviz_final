@@ -79,6 +79,10 @@ function fajront() {
     }
 }
 function spustiCasovac() {
+    if(!timerRuns){
+        var gong = new Audio('data/audio/misc/gong.mp3');
+        gong.play();
+    }
     timerRuns = !timerRuns;
 }
 function changeMaxTime() {
@@ -103,7 +107,10 @@ function keydownCasAbody (e){
     //nastavenia
     else if (e.keyCode == 79) {       //O
         $('#' + nazovStranky + 'Nastavenie').slideToggle(200, function(){
-            $('#' + nazovStranky + 'Nastavenie input').focus();
+            if($('#' + nazovStranky + 'Nastavenie').css('display') == 'none')
+                $('#' + nazovStranky + 'Nastavenie input').blur();
+            else
+                $('#' + nazovStranky + 'Nastavenie input').focus();
         });
     }
     //body

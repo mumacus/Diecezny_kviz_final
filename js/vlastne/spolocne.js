@@ -1,10 +1,17 @@
 
 /* VSEOBECNE */
+var vInpute = false;
 $(function () {
     $('#mainMenuHide').click(function () { animujMenu(-280); });
     $('#mainMenuShow').click(function () { animujMenu(0); });
     //tabulka
     generujTabulku();
+
+    $('input').blur(function() {
+        vInpute = false;
+    }).focus(function() {
+        vInpute = true;
+    });
 });
 
 //generovanie tabulky
@@ -84,5 +91,19 @@ function keydownSpolocne(e) {
         toggleTab();
     } else if (e.keyCode == 27) {       //esc
         $('#scoreTable').fadeOut(300);
+    } else if(!vInpute && $('#scoreTable').css('display') == 'none'){
+        if (e.keyCode == 49 || e.keyCode == 97){                //1
+            window.location.href = "index.html";
+        } else if (e.keyCode == 50 || e.keyCode == 98){         //2
+            window.location.href = "videa.html";
+        } else if (e.keyCode == 51 || e.keyCode == 99){         //3
+            window.location.href = "piesne.html";
+        } else if (e.keyCode == 52 || e.keyCode == 100){        //4
+            window.location.href = "slova.html";
+        } else if (e.keyCode == 53 || e.keyCode == 101){        //5
+            window.location.href = "party.html";
+        } else if (e.keyCode == 54 || e.keyCode == 102){        //6
+            window.location.href = "odhad.html";
+        }
     }
 }
