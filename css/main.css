@@ -355,7 +355,7 @@ body{
     padding: 0;
     margin: 0px 0px 30px;
     height: calc(93vh - 180px);
-    /*max-height: 630px;*/
+    /* max-height: 630px; */
     background-image: url('../data/images/party/p1.jpg');
     background-repeat: no-repeat;
     background-size: contain;
@@ -377,6 +377,7 @@ body{
     display: none;
 }
 #kolesoHolder{
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -392,5 +393,10 @@ body{
     right: 0;
     bottom: 0;
     margin: auto;
+}
+.koleso{
     max-height: 80vh;
+}
+.logo{
+    max-height: 20vh;
 }

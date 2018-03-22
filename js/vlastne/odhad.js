@@ -14,27 +14,42 @@ $(function () {
             zmena(-1);
         } else if (e.keyCode == 39) {       //prava sipka
             zmena(1);
+        } else if (e.keyCode == 75) {       //K
+            $('#kolesoHolder').fadeToggle(300);
+        } else if (e.keyCode == 27) {       //esc
+            $('#kolesoHolder').fadeOut(300);
         }
     });
 });
 var uhol;
+var hudbaKoleso = new Audio('data/audio/misc/koleso.mp3');
+$(hudbaKoleso).attr('loop', '');
 function zatocKolesom(){
-    var nahoda = Math.floor(Math.random() * 16);
-    uhol = nahoda * 22.5;
-    var velkyUhol = uhol + 360 * 4;
-    $('#kolesoHolder .koleso').stop().animate({ borderSpacing: velkyUhol }, {
+    if($('#kolesoHolder').css('display') != 'none'){
+        hudbaKoleso.currentTime = 0;
+        hudbaKoleso.play();
+        var nahoda = Math.floor(Math.random() * 16);
+        uhol = nahoda * 22.5;
+        var velkyUhol = uhol + 360 * pocetOtoceni;
+        animujTocenie(velkyUhol, casTocenia, function(){
+            var konec = new Audio('data/audio/misc/koniec.mp3');
+            hudbaKoleso.pause();
+            konec.play();
+            animujTocenie(uhol, 0);
+        });
+    }
+}
+
+function animujTocenie(uhlik, trvanie, koniec){
+    $('#kolesoHolder .koleso').stop().animate({ borderSpacing: uhlik }, {
         step: function(now,fx) {
             $(this).css('-webkit-transform','rotate('+now+'deg)');
             $(this).css('-moz-transform','rotate('+now+'deg)');
             $(this).css('transform','rotate('+now+'deg)');
         },
-        duration: 2000,
+        duration: trvanie,
         easing: 'swing',
-        complete: function(){
-            $('#kolesoHolder .koleso').css('-webkit-transform', 'rotate(' + uhol + 'deg)');
-            $('#kolesoHolder .koleso').css('-moz-transform', 'rotate(' + uhol + 'deg)');
-            $('#kolesoHolder .koleso').css('transform', 'rotate(' + uhol + 'deg)');
-        }
+        complete: koniec
     });
 }
 
